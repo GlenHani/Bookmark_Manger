@@ -2,6 +2,9 @@ require 'sinatra/base'
 require './lib/bookmark'
 
 class BookmarkManager < Sinatra::Base
+
+  test 
+  
   get '/' do
     'Bookmark Manager'
   end
