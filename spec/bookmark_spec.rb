@@ -1,6 +1,4 @@
 require './lib/bookmark'
-require './spec/setup_test_database'
-require 'database_helpers'
 
 
 RSpec.describe Bookmark do
@@ -8,16 +6,15 @@ RSpec.describe Bookmark do
     it 'returns a list of bookmarks' do
       connection = PG.connect(dbname: 'bookmark_manager_test')
 
-      setup_test_database
-   
+
       # Add the test data
       bookmark = Bookmark.create(url: "http://www.makersacademy.com", title: "Makers Academy")
       Bookmark.create(url: "http://www.destroyallsoftware.com", title: "Destroy All Software")
       Bookmark.create(url: "http://www.google.com", title: "Google")
-   
+
       bookmarks = Bookmark.all
 
-   
+
       expect(bookmarks.length).to eq 3
       expect(bookmarks.first).to be_a Bookmark
       expect(bookmarks.first.id).to eq bookmark.id
@@ -38,5 +35,5 @@ RSpec.describe Bookmark do
 
     end
   end
-    
+
 end
