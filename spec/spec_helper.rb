@@ -35,6 +35,11 @@ RSpec.configure do |config|
 
   ENV['ENVIRONMENT'] = 'test'
 
+  
+  config.before(:each) do
+    database_helpers
+  end
+
 
 
   # Tell Capybara to talk to BookmarkManager
