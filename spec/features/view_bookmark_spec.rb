@@ -13,7 +13,6 @@ feature 'Viewing bookmarks' do
 
     visit '/bookmarks'
 
-    save_and_open_page
 
     expect(page).to have_link('Makers Academy', href: 'http://www.makersacademy.com')
     expect(page).to have_link('Destroy All Software',  href: 'http://www.destroyallsoftware.com')

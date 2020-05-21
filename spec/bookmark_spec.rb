@@ -58,5 +58,20 @@ RSpec.describe Bookmark do
     end
   end
 
+  describe '.find' do
+    it 'find a bookmark' do
+
+      bookmark = Bookmark.create(title: 'Makers Academy', url: 'http://www.makersacademy.com')
+
+      result = Bookmark.find(id: bookmark.id)
+
+      expect(result).to be_a Bookmark
+      expect(result.id).to eq bookmark.id
+      expect(result.title).to eq 'Makers Academy'
+      expect(result.url).to eq 'http://www.makersacademy.com'
+    end
+  end
+
+
 
 end
