@@ -43,6 +43,20 @@ RSpec.describe Bookmark do
 
       expect(Bookmark.all.length).to eq 0
     end
-end
+  end
+
+  describe '.update' do
+    it 'updates a bookmark' do
+
+      bookmark = Bookmark.create(title: 'Makers Academy', url: 'http://www.makersacademy.com')
+
+      changed  = Bookmark.update(id: bookmark.id, title: 'Makers Test', url: 'http://www.makersacademy1.com')
+      expect(changed).to be_a Bookmark
+      expect(changed.id).to eq bookmark.id
+      expect(changed.title).to eq 'Makers Test'
+      expect(changed.url).to eq 'http://www.makersacademy1.com'
+    end
+  end
+
 
 end
