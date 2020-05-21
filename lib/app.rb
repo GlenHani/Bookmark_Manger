@@ -1,5 +1,6 @@
 require 'sinatra/base'
 require './lib/bookmark'
+require './lib/db_setup'
 
 class BookmarkManager < Sinatra::Base
 

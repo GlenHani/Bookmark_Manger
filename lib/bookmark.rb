@@ -10,17 +10,18 @@ class Bookmark
     @url = url
   end
 
+
   def self.all
-    if ENV['ENVIRONMENT'] == 'test'
-      connection = PG.connect(dbname: 'bookmark_manager_test')
-    else
-      connection = PG.connect(dbname: 'BookMarkManager')
-    end
-    result = connection.exec("SELECT * FROM bookmarks")
+    result = DatabaseConnection.query("SELECT * FROM bookmarks")
     result.map do |bookmark|
-      Bookmark.new(id: bookmark['id'], url: bookmark['url'], title: bookmark['title'])
+      Bookmark.new(
+        url: bookmark['url'],
+        title: bookmark['title'],
+        id: bookmark['id']
+      )
     end
   end
+    
 
   def self.create(url:, title:)
     if ENV['ENVIRONMENT'] == 'test'
@@ -28,18 +29,13 @@ class Bookmark
     else
       connection = PG.connect(dbname: 'BookMarkManager')
     end
-    result = connection.exec("INSERT INTO bookmarks (url, title) VALUES('#{url}', '#{title}') RETURNING id, title, url;")
+    connection.exec("INSERT INTO bookmarks (url, title) VALUES('#{url}', '#{title}') RETURNING id, title, url;")
     Bookmark.new(id: result[0]['id'], title: result[0]['title'], url: result[0]['url'])
   end
 
 
   def self.delete(id:)
-    if ENV['ENVIRONMENT'] == 'test'
-      connection = PG.connect(dbname: 'bookmark_manager_test')
-    else
-      connection = PG.connect(dbname: 'BookMarkManager')
-    end
-    connection.exec("DELETE FROM bookmarks WHERE id = #{id}")
+    result = DatabaseConnection.query("DELETE FROM bookmarks WHERE id = #{id}")
 
   end
 
@@ -57,7 +53,7 @@ class Bookmark
     if ENV['ENVIRONMENT'] == 'test'
       connection = PG.connect(dbname: 'bookmark_manager_test')
     else
-      connection = PG.connect(dbname: 'bookmark_manager')
+      connection = PG.connect(dbname: 'BookMarkManager')
     end
     result = connection.exec("SELECT * FROM bookmarks WHERE id = #{id};")
     Bookmark.new(id: result[0]['id'], title: result[0]['title'], url: result[0]['url'])
@@ -65,5 +61,4 @@ class Bookmark
   
   
 
-
- end
+end
